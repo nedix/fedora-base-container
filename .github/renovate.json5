@@ -1,0 +1,22 @@
+{
+  extends: [
+    "https://raw.githubusercontent.com/nedix/actions/main/renovate.json5",
+  ],
+  customManagers: [
+    {
+      depNameTemplate: "Fedora",
+      fileMatch: ["^Containerfile$"],
+      matchStrings: ["ARG FEDORA_VERSION=(?<currentValue>.*?)\\n"],
+      datasourceTemplate: "custom.fedora",
+    },
+  ],
+  customDatasources: {
+    fedora: {
+      format: "json",
+      defaultRegistryUrlTemplate: "https://fedoraproject.org/releases.json",
+      extractRegexTemplate: '"version":\\s*"(?<version>\\d+)"',
+    },
+  },
+  packageRules: [
+  ],
+}

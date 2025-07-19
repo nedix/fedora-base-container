@@ -15,6 +15,13 @@ jobs:
     name: Fedora matrix
     runs-on: ubuntu-latest
     steps:
+      - id: checkout-code
+        name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
       - id: get-upper-fedora-version
         name: Get upper Fedora version
         run: |

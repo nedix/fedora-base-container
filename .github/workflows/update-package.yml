@@ -1,0 +1,66 @@
+name: Update package
+
+on:
+  push:
+    tags: ['*']
+
+permissions:
+  attestations: write
+  id-token: write
+  packages: write
+  security-events: write
+
+jobs:
+  fedora-matrix:
+    name: Fedora matrix
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout-code
+        name: Checkout code
+        uses: actions/checkout@v4.2.2
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - id: get-upper-fedora-version
+        name: Get upper Fedora version
+        run: |
+          sed -nE "s|^ARG FEDORA_VERSION=(.*)$|upper_fedora_version=\1|p" Containerfile >> "$GITHUB_OUTPUT"
+
+      - id: get-lower-fedora-version
+        name: Get lower Fedora version
+        run: |
+          upper_fedora_version=${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}
+          previous_fedora_version=$(( upper_fedora_version -2 ))
+          echo lower_fedora_version=$(( previous_fedora_version > 41 ? previous_fedora_version : 41 )) >> "$GITHUB_OUTPUT"
+
+      - id: list-fedora-versions
+        name: List Fedora versions
+        run: |
+          upper_fedora_version=${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}
+          lower_fedora_version=${{ steps.get-lower-fedora-version.outputs.lower_fedora_version }}
+          echo fedora_versions=[$(seq $upper_fedora_version -1 $lower_fedora_version | awk '{printf "%s\"%s\"", (NR==1 ? "" : ", "), $0}')] >> "$GITHUB_OUTPUT"
+
+    outputs:
+      upper_fedora_version: ${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}
+      lower_fedora_version: ${{ steps.get-lower-fedora-version.outputs.lower_fedora_version }}
+      fedora_versions: ${{ steps.list-fedora-versions.outputs.fedora_versions }}
+
+  update-package:
+    name: Update package
+    runs-on: ubuntu-latest
+    needs: fedora-matrix
+    strategy:
+      matrix:
+        fedora_version: ${{ fromJSON(needs.fedora-matrix.outputs.fedora_versions) }}
+    steps:
+      - id: update-package
+        name: Update package
+        uses: nedix/actions/update-package@main
+        with:
+          enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
+          enable_short_sha: 'false'
+          enable_version_tag: 'false'
+          platforms: linux/amd64,linux/arm64/v8
+          tags: |
+            ${{ format('fedora-{0}', matrix.fedora_version) }}

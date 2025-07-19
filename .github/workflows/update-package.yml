@@ -52,7 +52,7 @@ jobs:
     needs: fedora-matrix
     strategy:
       matrix:
-        fedora_version: ${{ fromJSON()needs.fedora-matrix.outputs.fedora_versions) }}
+        fedora_version: ${{ fromJSON(needs.fedora-matrix.outputs.fedora_versions) }}
     steps:
       - id: update-package
         name: Update package

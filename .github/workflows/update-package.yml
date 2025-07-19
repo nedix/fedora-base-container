@@ -59,11 +59,6 @@ jobs:
         uses: nedix/actions/update-package@main
         with:
           platforms: linux/amd64,linux/arm64/v8
-          registry: ${{ secrets.REGISTRY_DOMAIN }}
-          registry_path: ${{ secrets.REGISTRY_PATH }}
-          registry_username: ${{ secrets.REGISTRY_USERNAME }}
-          registry_password: ${{ secrets.REGISTRY_PASSWORD }}
-          enable_docker_hub_information: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
           enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
           enable_short_sha: 'false'
           enable_version_tag: 'false'

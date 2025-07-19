@@ -65,5 +65,7 @@ jobs:
           registry_password: ${{ secrets.REGISTRY_PASSWORD }}
           enable_docker_hub_information: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
           enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
+          enable_short_sha: 'false'
+          enable_version_tag: 'false'
           tags: |
             ${{ format('fedora-{0}', matrix.fedora_version) }}

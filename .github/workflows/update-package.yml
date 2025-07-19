@@ -39,7 +39,7 @@ jobs:
         run: |
           upper_fedora_version=${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}
           lower_fedora_version=${{ steps.get-lower-fedora-version.outputs.lower_fedora_version }}
-          echo fedora_versions=$(seq $upper_fedora_version -1 $lower_fedora_version) >> "$GITHUB_OUTPUT"
+          echo fedora_versions=[$(seq $upper_fedora_version -1 $lower_fedora_version | awk '{printf "%s\"%s\"", (NR==1 ? "" : ", "), $0}')] >> "$GITHUB_OUTPUT"
 
     outputs:
       upper_fedora_version: ${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}

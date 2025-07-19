@@ -59,7 +59,7 @@ jobs:
         uses: nedix/actions/update-package@main
         with:
           enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
-          enable_short_sha: 'false'
+          enable_short_sha_tag: 'false'
           enable_version_tag: 'false'
           platforms: linux/amd64,linux/arm64/v8
           tags: |

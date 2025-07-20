@@ -67,4 +67,4 @@ jobs:
           registry_username: ${{ secrets.REGISTRY_USERNAME || github.actor }}
           registry_password: ${{ secrets.REGISTRY_PASSWORD || github.token }}
           tags: |
-            ${{ format('fedora-{0}', matrix.fedora_version) }}
+            ${{ matrix.fedora_version }}

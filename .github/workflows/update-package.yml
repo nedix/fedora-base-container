@@ -57,11 +57,6 @@ jobs:
       - id: update-package
         name: Update package
         uses: nedix/actions/update-package@main
-        env:
-          registry_secret: ${{ secrets.REGISTRY_DOMAIN }}
-          registry_path_secret: ${{ secrets.REGISTRY_PATH }}
-          registry_username_secret: ${{ secrets.REGISTRY_USERNAME }}
-          registry_password_secret: ${{ secrets.REGISTRY_PASSWORD }}
         with:
           enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
           enable_short_sha_tag: 'false'

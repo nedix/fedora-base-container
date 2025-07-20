@@ -67,9 +67,9 @@ jobs:
           enable_short_sha_tag: 'false'
           enable_version_tag: 'false'
           platforms: 'linux/amd64,linux/arm64/v8'
-          registry: ${{ env.registry_secret || 'ghcr.io' }}
-          registry_path: ${{ env.registry_path_secret || github.repository }}
-          registry_username: ${{ env.registry_username_secret || github.actor }}
-          registry_password: ${{ env.registry_password_secret || github.token }}
+          registry: ${{ secrets.REGISTRY_DOMAIN != false && secrets.REGISTRY_DOMAIN || 'ghcr.io' }}
+          registry_path: ${{ secrets.REGISTRY_PATH != false && secrets.REGISTRY_PATH || github.repository }}
+          registry_username: ${{ secrets.REGISTRY_USERNAME != false && secrets.REGISTRY_USERNAME || github.actor }}
+          registry_password: ${{ secrets.REGISTRY_PASSWORD !=false || github.token }}
           tags: |
             ${{ format('fedora-{0}', matrix.fedora_version) }}

@@ -1,4 +1,4 @@
-ARG FEDORA_VERSION=41
+ARG FEDORA_VERSION=42
 
 FROM registry.fedoraproject.org/fedora-minimal:${FEDORA_VERSION}
 

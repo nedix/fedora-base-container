@@ -70,6 +70,6 @@ jobs:
           registry: ${{ secrets.REGISTRY_DOMAIN != false && secrets.REGISTRY_DOMAIN || 'ghcr.io' }}
           registry_path: ${{ secrets.REGISTRY_PATH != false && secrets.REGISTRY_PATH || github.repository }}
           registry_username: ${{ secrets.REGISTRY_USERNAME != false && secrets.REGISTRY_USERNAME || github.actor }}
-          registry_password: ${{ secrets.REGISTRY_PASSWORD !=false || github.token }}
+          registry_password: ${{ secrets.REGISTRY_PASSWORD !=false && secrets.REGISTRY_PASSWORD || github.token }}
           tags: |
             ${{ format('fedora-{0}', matrix.fedora_version) }}

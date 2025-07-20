@@ -62,5 +62,8 @@ jobs:
           enable_short_sha_tag: 'false'
           enable_version_tag: 'false'
           platforms: linux/amd64,linux/arm64/v8
+          registry_password: ${{ secrets.REGISTRY_PASSWORD || github.token }}
+          registry_path: ${{ secrets.REGISTRY_PATH || github.repository }}
+          registry_username: ${{ secrets.REGISTRY_USERNAME || github.actor }}
           tags: |
             ${{ format('fedora-{0}', matrix.fedora_version) }}

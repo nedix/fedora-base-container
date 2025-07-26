@@ -11,6 +11,7 @@ RUN sed -E \
         -e "s|(\[main\])|\1\nmax_parallel_downloads=10|" \
         -e "s|(\[main\])|\1\nmetadata_expire=-1|" \
         -i /etc/dnf/dnf.conf \
+    && dnf makecache --refresh \
     && dnf install -y \
         dnf5-plugins \
         "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm" \
@@ -55,6 +56,6 @@ RUN sed -E \
         /etc/yum.repos.d/rpmfusion-free.repo \
         /etc/yum.repos.d/rpmfusion-free-updates.repo \
         /etc/yum.repos.d/rpmfusion-free-updates-testing.repo \
-    && dnf makecache --refresh
+    && dnf upgrade --refresh
 
 ENTRYPOINT ["/bin/sh"]

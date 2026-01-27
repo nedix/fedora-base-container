@@ -1,7 +1,7 @@
 setup:
 	@docker build --progress=plain -f Containerfile -t fedora-base .
 
-shell:
+run:
 	@docker run --rm -it --name="fedora-base" \
 		fedora-base
 

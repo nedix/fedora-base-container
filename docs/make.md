@@ -9,11 +9,11 @@ Build the container.
 Command: `make setup`
 
 
-### Shell
+### Run
 
-Start and attach an interactive shell to the container.
+Run and attach an interactive shell to the container.
 
-Command: `make shell`
+Command: `make run`
 
 
 ### Test

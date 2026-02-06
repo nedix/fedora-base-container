@@ -39,11 +39,20 @@ jobs:
           latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
           echo oldest_fedora_version=$(( latest_fedora_version - 2 )) >> "$GITHUB_OUTPUT"
 
+      - id: list-fedora-versions
+        name: List Fedora versions
+        run: |
+          latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
+          previous_fedora_version=${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}
+          oldest_fedora_version=${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}
+          echo list_fedora_versions=${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }} ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }} ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }} >> "$GITHUB_OUTPUT"
+
+
     outputs:
       latest_fedora_version: ${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }}
       previous_fedora_version: ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}
       oldest_fedora_version: ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}
-      fedora_versions: "${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}" "${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}" "${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }}"
+      fedora_versions: ${{ steps.list-fedora-versions.outputs.list_fedora_versions }}
 
   update-package:
     name: Update package

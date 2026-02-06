@@ -45,8 +45,7 @@ jobs:
           latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
           previous_fedora_version=${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}
           oldest_fedora_version=${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}
-          echo list_fedora_versions=${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }} ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }} ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }} >> "$GITHUB_OUTPUT"
-
+          echo list_fedora_versions=[${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }} ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }} ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}] >> "$GITHUB_OUTPUT"
 
     outputs:
       latest_fedora_version: ${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }}
@@ -60,7 +59,7 @@ jobs:
     needs: fedora-matrix
     strategy:
       matrix:
-        fedora_version: '${{ fromJSON(needs.fedora-matrix.outputs.fedora_versions) }}'
+        fedora_version: ${{ fromJSON(needs.fedora-matrix.outputs.fedora_versions) }}
     steps:
       - id: update-package
         name: Update package

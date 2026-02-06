@@ -22,28 +22,27 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
-      - id: get-upper-fedora-version
-        name: Get upper Fedora version
+      - id: get-latest-fedora-version
+        name: Get latest Fedora version
         run: |
-          sed -nE "s|^ARG FEDORA_VERSION=(.*)$|upper_fedora_version=\1|p" Containerfile >> "$GITHUB_OUTPUT"
+          echo "latest_fedora_version=" && sed -nE "s|^ARG FEDORA_VERSION=(.*)$|latest_fedora_version=\1|p" Containerfile >> "$GITHUB_OUTPUT"
 
-      - id: get-lower-fedora-version
-        name: Get lower Fedora version
+      - id: get-previous-fedora-version
+        name: Get previous Fedora version
         run: |
-          upper_fedora_version=${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}
-          previous_fedora_version=$(( upper_fedora_version -2 ))
-          echo lower_fedora_version=$(( previous_fedora_version > 41 ? previous_fedora_version : 41 )) >> "$GITHUB_OUTPUT"
+          latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
+          echo previous_fedora_version=$(( latest_fedora_version - 1 )) >> "$GITHUB_OUTPUT"
 
-      - id: list-fedora-versions
-        name: List Fedora versions
+      - id: get-oldest-fedora-version
+        name: Get oldest Fedora version
         run: |
-          upper_fedora_version=${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}
-          lower_fedora_version=${{ steps.get-lower-fedora-version.outputs.lower_fedora_version }}
-          echo fedora_versions=[$(seq $upper_fedora_version -1 $lower_fedora_version | awk '{printf "%s\"%s\"", (NR==1 ? "" : ", "), $0}')] >> "$GITHUB_OUTPUT"
+          latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
+          echo oldest_fedora_version=$(( latest_fedora_version - 2 )) >> "$GITHUB_OUTPUT"
 
     outputs:
-      upper_fedora_version: ${{ steps.get-upper-fedora-version.outputs.upper_fedora_version }}
-      lower_fedora_version: ${{ steps.get-lower-fedora-version.outputs.lower_fedora_version }}
+      latest_fedora_version: ${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }}
+      previous_fedora_version: ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}
+      oldest_fedora_version: ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}
       fedora_versions: ${{ steps.list-fedora-versions.outputs.fedora_versions }}
 
   update-package:
@@ -58,7 +57,7 @@ jobs:
         name: Update package
         uses: nedix/actions/update-package@main
         with:
-          enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.upper_fedora_version && 'true' || 'false' }}
+          enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.latest_fedora_version && 'true' || 'false' }}
           enable_short_sha_tag: 'false'
           enable_version_tag: 'false'
           platforms: 'linux/amd64,linux/arm64/v8'

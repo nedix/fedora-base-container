@@ -43,7 +43,7 @@ jobs:
       latest_fedora_version: ${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }}
       previous_fedora_version: ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}
       oldest_fedora_version: ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}
-      fedora_versions: ${{ steps.list-fedora-versions.outputs.fedora_versions }}
+      fedora_versions: ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }} ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }} ${{ steps.get-upper-fedora-version.outputs.latest_fedora_version }}
 
   update-package:
     name: Update package

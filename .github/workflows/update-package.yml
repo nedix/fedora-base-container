@@ -25,19 +25,19 @@ jobs:
       - id: get-latest-fedora-version
         name: Get latest Fedora version
         run: |
-          echo "latest_fedora_version=" && sed -nE "s|^ARG FEDORA_VERSION=(.*)$|latest_fedora_version=\1|p" Containerfile >> "$GITHUB_OUTPUT"
+          echo 'latest_fedora_version=' && sed -nE "s|^ARG FEDORA_VERSION=(.*)$|latest_fedora_version=\1|p" Containerfile >> "$GITHUB_OUTPUT"
 
       - id: get-previous-fedora-version
         name: Get previous Fedora version
         run: |
           latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
-          echo previous_fedora_version=$(( latest_fedora_version - 1 )) >> "$GITHUB_OUTPUT"
+          echo 'previous_fedora_version=$(( latest_fedora_version - 1 ))' >> "$GITHUB_OUTPUT"
 
       - id: get-oldest-fedora-version
         name: Get oldest Fedora version
         run: |
           latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
-          echo oldest_fedora_version=$(( latest_fedora_version - 2 )) >> "$GITHUB_OUTPUT"
+          echo 'oldest_fedora_version=$(( latest_fedora_version - 2 ))' >> "$GITHUB_OUTPUT"
 
       - id: list-fedora-versions
         name: List Fedora versions
@@ -45,7 +45,7 @@ jobs:
           latest_fedora_version=${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}
           previous_fedora_version=${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}
           oldest_fedora_version=${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}
-          echo 'list_fedora_versions=[${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }} ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }} ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}]' >> "$GITHUB_OUTPUT"
+          echo 'list_fedora_versions=[${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}, ${{ steps.get-previous-fedora-version.outputs.previous_fedora_version }}, ${{ steps.get-oldest-fedora-version.outputs.oldest_fedora_version }}]' >> "$GITHUB_OUTPUT"
 
     outputs:
       latest_fedora_version: ${{ steps.get-latest-fedora-version.outputs.latest_fedora_version }}

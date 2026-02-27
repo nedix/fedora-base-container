@@ -49,7 +49,7 @@ jobs:
         name: Publish package
         uses: nedix/actions/publish-package@main
         with:
-          enable_latest_tag: 'false'
+          enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.latest_fedora_version && 'true' || 'false' }}
           enable_short_sha_tag: 'false'
           enable_version_tag: 'false'
           platforms: linux/amd64,linux/arm64/v8
@@ -58,5 +58,4 @@ jobs:
           registry_username: ${{ secrets.REGISTRY_USERNAME || github.actor }}
           registry_password: ${{ secrets.REGISTRY_PASSWORD || github.token }}
           tags: |
-            f${{ matrix.fedora_version }}
-            ${{ matrix.fedora_version == needs.fedora-matrix.outputs.latest_fedora_version && 'latest' }}
+            ${{ matrix.fedora_version }}

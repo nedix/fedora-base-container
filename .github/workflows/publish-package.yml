@@ -52,17 +52,12 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
-      - id: patch-fedora-version
-        name: Patch Fedora version
-        run: |
-          sed -E \
-            -e 's|ARG FEDORA_VERSION=.*$|ARG FEDORA_VERSION=${{ matrix.fedora_version }}|' \
-            -i Containerfile
-
       - id: publish-package
         name: Publish package
         uses: nedix/actions/publish-package@main
         with:
+          build_arguments: |
+            FEDORA_VERSION=${{ matrix.fedora_version }}
           enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.latest_fedora_version && 'true' || 'false' }}
           enable_short_sha_tag: 'false'
           enable_version_tag: 'false'

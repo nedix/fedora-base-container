@@ -45,6 +45,13 @@ jobs:
       matrix:
         fedora_version: ${{ fromJSON(needs.fedora-matrix.outputs.fedora_versions) }}
     steps:
+      - id: patch-fedora-version
+        name: Patch Fedora version
+        run: |
+          sed -E \
+            -e 's|ARG FEDORA_VERSION=.*$|ARG FEDORA_VERSION=${{ matrix.fedora_version }}|' \
+            -i Containerfile
+
       - id: publish-package
         name: Publish package
         uses: nedix/actions/publish-package@main

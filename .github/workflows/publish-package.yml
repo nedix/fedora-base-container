@@ -45,13 +45,6 @@ jobs:
       matrix:
         fedora_version: ${{ fromJSON(needs.fedora-matrix.outputs.fedora_versions) }}
     steps:
-      - id: checkout-code
-        name: Checkout code
-        uses: actions/checkout@v6.0.2
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
-
       - id: publish-package
         name: Publish package
         uses: nedix/actions/publish-package@main

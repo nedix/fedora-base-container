@@ -4,12 +4,6 @@ on:
   push:
     tags: ['*']
 
-permissions:
-  attestations: write
-  id-token: write
-  packages: write
-  security-events: write
-
 jobs:
   fedora-matrix:
     name: Fedora matrix

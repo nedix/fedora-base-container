@@ -19,5 +19,10 @@
     },
   },
   packageRules: [
+    {
+      description: "Custom versioning for Fedora",
+      matchPackageNames: ["fedora"],
+      versioning: "regex:^(?<major>\\d+)$",
+    },
   ],
 }

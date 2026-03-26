@@ -9,7 +9,6 @@
       matchStrings: ["ARG FEDORA_VERSION=(?<currentValue>.*?)\\n"],
       datasourceTemplate: "custom.fedora",
       packageNameTemplate: "fedora",
-      versioningTemplate: "loose",
     },
   ],
   customDatasources: {

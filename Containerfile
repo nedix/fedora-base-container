@@ -15,31 +15,31 @@ RUN sed -E \
     && dnf install -y \
         dnf5-plugins \
         "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm" \
-    && for PREVIOUS_FEDORA_VERSION in $(seq $(( FEDORA_VERSION - 2 )) "$FEDORA_VERSION"); do \
+    && for FEDORA_VERSION_N in $(seq $(( FEDORA_VERSION - 2 )) "$FEDORA_VERSION"); do \
         sed -E \
-            -e "s|\\\$releasever|${PREVIOUS_FEDORA_VERSION}|g" \
-            -e "s|^\[fedora|\[fedora-${PREVIOUS_FEDORA_VERSION}|g" \
+            -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
+            -e "s|^\[fedora|\[fedora-${FEDORA_VERSION_N}|g" \
             /etc/yum.repos.d/fedora.repo \
-            > "/etc/yum.repos.d/fedora-${PREVIOUS_FEDORA_VERSION}.repo" \
-        && dnf config-manager setopt "fedora-${PREVIOUS_FEDORA_VERSION}.enabled=1" \
+            > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}.repo" \
+        && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}.enabled=1" \
         && sed -E \
-            -e "s|\\\$releasever|${PREVIOUS_FEDORA_VERSION}|g" \
-            -e "s|^\[updates|\[fedora-${PREVIOUS_FEDORA_VERSION}-updates|g" \
+            -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
+            -e "s|^\[updates|\[fedora-${FEDORA_VERSION_N}-updates|g" \
             /etc/yum.repos.d/fedora-updates.repo \
-            > "/etc/yum.repos.d/fedora-${PREVIOUS_FEDORA_VERSION}-updates.repo" \
-        && dnf config-manager setopt "fedora-${PREVIOUS_FEDORA_VERSION}-updates.enabled=1" \
+            > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}-updates.repo" \
+        && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}-updates.enabled=1" \
         && sed -E \
-            -e "s|\\\$releasever|${PREVIOUS_FEDORA_VERSION}|g" \
-            -e "s|^\[rpmfusion-free|\[fedora-${PREVIOUS_FEDORA_VERSION}-rpmfusion-free|g" \
+            -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
+            -e "s|^\[rpmfusion-free|\[fedora-${FEDORA_VERSION_N}-rpmfusion-free|g" \
             /etc/yum.repos.d/rpmfusion-free.repo \
-            > "/etc/yum.repos.d/fedora-${PREVIOUS_FEDORA_VERSION}-rpmfusion-free.repo" \
-        && dnf config-manager setopt "fedora-${PREVIOUS_FEDORA_VERSION}-rpmfusion-free.enabled=1" \
+            > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}-rpmfusion-free.repo" \
+        && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}-rpmfusion-free.enabled=1" \
         && sed -E \
-            -e "s|\\\$releasever|${PREVIOUS_FEDORA_VERSION}|g" \
-            -e "s|^\[rpmfusion-free-updates|\[fedora-${PREVIOUS_FEDORA_VERSION}-rpmfusion-free-updates|g" \
+            -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
+            -e "s|^\[rpmfusion-free-updates|\[fedora-${FEDORA_VERSION_N}-rpmfusion-free-updates|g" \
             /etc/yum.repos.d/rpmfusion-free-updates.repo \
-            > "/etc/yum.repos.d/fedora-${PREVIOUS_FEDORA_VERSION}-rpmfusion-free-updates.repo" \
-        && dnf config-manager setopt "fedora-${PREVIOUS_FEDORA_VERSION}-rpmfusion-free-updates.enabled=1" \
+            > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}-rpmfusion-free-updates.repo" \
+        && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}-rpmfusion-free-updates.enabled=1" \
     ; done \
     && dnf config-manager setopt "fedora-cisco-openh264.enabled=0" \
     && dnf config-manager setopt "fedora.enabled=0" \

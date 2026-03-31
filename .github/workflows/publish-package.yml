@@ -51,7 +51,7 @@ jobs:
         with:
           build_arguments: |
             FEDORA_VERSION=${{ matrix.fedora_version }}
-          cache_tag: "cache-${{ matrix.fedora_version }}"
+          cache_tag: "cache${{ matrix.fedora_version }}"
           enable_cache: 'true'
           enable_latest_tag: ${{ matrix.fedora_version == needs.fedora-matrix.outputs.latest_fedora_version && 'true' || 'false' }}
           enable_short_sha_tag: 'false'

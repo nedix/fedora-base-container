@@ -5,7 +5,7 @@
   customManagers: [
     {
       depNameTemplate: "Fedora",
-      fileMatch: ["^Containerfile$"],
+      fileMatch: ["^Containerfile$", "^README.md$"],
       matchStrings: ["ARG FEDORA_VERSION=(?<currentValue>.*?)\\n"],
       datasourceTemplate: "custom.fedora",
       packageNameTemplate: "fedora",

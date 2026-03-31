@@ -25,7 +25,7 @@ jobs:
       - id: get-latest-fedora-version
         name: Get latest Fedora version
         run: |
-          echo "latest_fedora_version=" && sed -nE "s|^ARG FEDORA_VERSION=(.*)$|latest_fedora_version=\1|p" Containerfile >> "$GITHUB_OUTPUT"
+          sed -nE "s|^ARG FEDORA_VERSION=(.*)$|latest_fedora_version=\1|p" Containerfile >> $GITHUB_OUTPUT
 
       - id: list-fedora-versions
         name: List Fedora versions

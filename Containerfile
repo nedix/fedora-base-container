@@ -55,7 +55,6 @@ RUN sed -E \
         /etc/yum.repos.d/fedora-updates-testing.repo \
         /etc/yum.repos.d/rpmfusion-free.repo \
         /etc/yum.repos.d/rpmfusion-free-updates.repo \
-        /etc/yum.repos.d/rpmfusion-free-updates-testing.repo \
-    && dnf upgrade --refresh
+        /etc/yum.repos.d/rpmfusion-free-updates-testing.repo
 
 ENTRYPOINT ["/bin/sh"]

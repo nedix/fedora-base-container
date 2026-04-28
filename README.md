@@ -3,7 +3,7 @@
 ## Getting started
 
 ```dockerfile
-ARG FEDORA_VERSION=43
+ARG FEDORA_VERSION=44
 
 FROM ghcr.io/nedix/fedora-base-container:${FEDORA_VERSION}
 

@@ -1,8 +1,15 @@
 setup:
-	@docker build --progress=plain -f Containerfile -t fedora-base .
+	@docker build . \
+		--progress plain \
+		-f Containerfile \
+		-t fedora-base
 
 run:
-	@docker run --rm -it --name="fedora-base" \
+	@docker run \
+		--name fedora-base \
+		--rm \
+		-i \
+		-t \
 		fedora-base
 
 test:

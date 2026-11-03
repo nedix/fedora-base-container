@@ -4,14 +4,15 @@ FROM registry.fedoraproject.org/fedora-minimal:${FEDORA_VERSION}
 
 ARG FEDORA_VERSION
 
-RUN sed -E \
+RUN mv /usr/share/dnf5/repos.d/* /etc/yum.repos.d/ \
+    && rm /etc/yum.repos.d/fedora-cisco-openh264.repo \
+    && sed -E \
         -e "s|(\[main\])|\1\ndeltarpm=1|" \
         -e "s|(\[main\])|\1\nfastestmirror=1|" \
         -e "s|(\[main\])|\1\ninstall_weak_deps=0|" \
         -e "s|(\[main\])|\1\nmax_parallel_downloads=10|" \
         -e "s|(\[main\])|\1\nmetadata_expire=-1|" \
         -i /etc/dnf/dnf.conf \
-    && rm /usr/share/dnf5/repos.d/fedora-cisco-openh264.repo \
     && dnf makecache --refresh \
     && dnf install -y \
         dnf5-plugins \
@@ -20,13 +21,13 @@ RUN sed -E \
         sed -E \
             -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
             -e "s|^\[fedora|\[fedora-${FEDORA_VERSION_N}|g" \
-            /usr/share/dnf5/repos.d/fedora.repo \
+            /etc/yum.repos.d/fedora.repo \
             > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}.repo" \
         && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}.enabled=1" \
         && sed -E \
             -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
             -e "s|^\[updates|\[fedora-${FEDORA_VERSION_N}-updates|g" \
-            /usr/share/dnf5/repos.d/fedora-updates.repo \
+            /etc/yum.repos.d/fedora-updates.repo \
             > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}-updates.repo" \
         && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}-updates.enabled=1" \
         && sed -E \
@@ -49,9 +50,9 @@ RUN sed -E \
     && dnf config-manager setopt "rpmfusion-free-updates.enabled=0" \
     && dnf config-manager setopt "rpmfusion-free-updates-testing.enabled=0" \
     && rm \
-        /usr/share/dnf5/repos.d/fedora.repo \
-        /usr/share/dnf5/repos.d/fedora-updates.repo \
-        /usr/share/dnf5/repos.d/fedora-updates-testing.repo \
+        /etc/yum.repos.d/fedora.repo \
+        /etc/yum.repos.d/fedora-updates.repo \
+        /etc/yum.repos.d/fedora-updates-testing.repo \
         /etc/yum.repos.d/rpmfusion-free.repo \
         /etc/yum.repos.d/rpmfusion-free-updates.repo \
         /etc/yum.repos.d/rpmfusion-free-updates-testing.repo \

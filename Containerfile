@@ -4,7 +4,7 @@ FROM registry.fedoraproject.org/fedora-minimal:${FEDORA_VERSION}
 
 ARG FEDORA_VERSION
 
-RUN mv /usr/share/dnf5/repos.d/* /etc/yum.repos.d/ \
+RUN mv /usr/share/dnf5/repos.d/* /etc/yum.repos.d/ 2> /dev/null \
     && rm /etc/yum.repos.d/fedora-cisco-openh264.repo \
     && sed -E \
         -e "s|(\[main\])|\1\ndeltarpm=1|" \

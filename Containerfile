@@ -20,13 +20,13 @@ RUN sed -E \
         sed -E \
             -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
             -e "s|^\[fedora|\[fedora-${FEDORA_VERSION_N}|g" \
-            /etc/yum.repos.d/fedora.repo \
+            /usr/share/dnf5/repos.d/fedora.repo \
             > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}.repo" \
         && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}.enabled=1" \
         && sed -E \
             -e "s|\\\$releasever|${FEDORA_VERSION_N}|g" \
             -e "s|^\[updates|\[fedora-${FEDORA_VERSION_N}-updates|g" \
-            /etc/yum.repos.d/fedora-updates.repo \
+            /usr/share/dnf5/repos.d/fedora-updates.repo \
             > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}-updates.repo" \
         && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}-updates.enabled=1" \
         && sed -E \
@@ -49,9 +49,9 @@ RUN sed -E \
     && dnf config-manager setopt "rpmfusion-free-updates.enabled=0" \
     && dnf config-manager setopt "rpmfusion-free-updates-testing.enabled=0" \
     && rm \
-        /etc/yum.repos.d/fedora.repo \
-        /etc/yum.repos.d/fedora-updates.repo \
-        /etc/yum.repos.d/fedora-updates-testing.repo \
+        /usr/share/dnf5/repos.d/fedora.repo \
+        /usr/share/dnf5/repos.d/fedora-updates.repo \
+        /usr/share/dnf5/repos.d/fedora-updates-testing.repo \
         /etc/yum.repos.d/rpmfusion-free.repo \
         /etc/yum.repos.d/rpmfusion-free-updates.repo \
         /etc/yum.repos.d/rpmfusion-free-updates-testing.repo \

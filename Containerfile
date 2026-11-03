@@ -11,6 +11,7 @@ RUN sed -E \
         -e "s|(\[main\])|\1\nmax_parallel_downloads=10|" \
         -e "s|(\[main\])|\1\nmetadata_expire=-1|" \
         -i /etc/dnf/dnf.conf \
+    && rm /usr/share/dnf5/repos.d/fedora-cisco-openh264.repo \
     && dnf makecache --refresh \
     && dnf install -y \
         dnf5-plugins \
@@ -41,7 +42,6 @@ RUN sed -E \
             > "/etc/yum.repos.d/fedora-${FEDORA_VERSION_N}-rpmfusion-free-updates.repo" \
         && dnf config-manager setopt "fedora-${FEDORA_VERSION_N}-rpmfusion-free-updates.enabled=1" \
     ; done \
-    && dnf config-manager setopt "fedora-cisco-openh264.enabled=0" \
     && dnf config-manager setopt "fedora.enabled=0" \
     && dnf config-manager setopt "updates.enabled=0" \
     && dnf config-manager setopt "updates-testing.enabled=0" \
@@ -49,7 +49,6 @@ RUN sed -E \
     && dnf config-manager setopt "rpmfusion-free-updates.enabled=0" \
     && dnf config-manager setopt "rpmfusion-free-updates-testing.enabled=0" \
     && rm \
-        /etc/yum.repos.d/fedora-cisco-openh264.repo \
         /etc/yum.repos.d/fedora.repo \
         /etc/yum.repos.d/fedora-updates.repo \
         /etc/yum.repos.d/fedora-updates-testing.repo \
